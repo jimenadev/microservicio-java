@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-java@master
         with:
           java-version: '8'
+          distribution: 'temurin'
         
       - name: Generate coverage report
         run: mvn jacoco:prepare-agent jacoco:report
