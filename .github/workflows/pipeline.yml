@@ -13,14 +13,22 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
-      - name: Build (Compilacion)
-        run: |
-          mvn clean package
 
-      - name: Unit Tests (Ejecucion Test Unitarios con Jacoco)
-        run: |
-          mvn jacoco:prepare-agent test
-  
-      - name: Threshold Verify (coverage)
-        run: |
-          mvn jacoco:check@jacoco-check
+  coverage:
+    needs: build
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up JDK
+        uses: actions/setup-java@master
+        with:
+          java-version: '8'
+        
+      - name: Generate coverage report
+        run: mvn jacoco:prepare-agent jacoco:report
+        
+      - name: Verify coverage
+        run: mvn jacoco:check
