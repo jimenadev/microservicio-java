@@ -21,19 +21,14 @@ jobs:
     runs-on: ubuntu-latest
         
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-        
-      - name: Generate coverage report
-        run: mvn jacoco:prepare-agent jacoco:report
-        
-      - name: Verify coverage
+      - name: Build and Test with JaCoCo
         run: |
-          mvn jacoco:prepare-agent jacoco:report
-          cat target/site/jacoco/index.html
+          mvn clean verify
+          mvn jacoco:prepare-agent
+          mvn jacoco:report
+
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v2
+        with:
+           name: jacoco-report
+           path: target/site/jacoco/
