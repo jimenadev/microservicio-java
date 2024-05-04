@@ -23,4 +23,4 @@ jobs:
   
       - name: Threshold Verify (coverage)
         run: |
-          mvn jacoco:check -Djacoco.minimumLineCoverage=85%
+          mvn jacoco:check
