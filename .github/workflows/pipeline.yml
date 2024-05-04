@@ -16,7 +16,11 @@ jobs:
       - name: Build (Compilacion)
         run: |
           mvn clean package
-      
-      - name: Unit Tests (Ejecucion Test Unitarios)
+
+      - name: Unit Tests (Ejecucion Test Unitarios con Jacoco)
         run: |
-            mvn package test
+          mvn jacoco:prepare-agent test
+  
+      - name: Threshold Verify (coverage)
+        run: |
+          mvn jacoco:check -Djacoco.minimumLineCoverage=85%
