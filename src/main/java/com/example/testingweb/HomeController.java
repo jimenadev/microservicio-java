@@ -30,7 +30,6 @@ public class HomeController {
 		String pass19 ="1234";
 		String pass20 ="1234";
 		String pass21 ="1234";
-		String pass22 ="1234";
 
 
 		return "Hello, World";
