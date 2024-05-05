@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: microservicio-java
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: microservicio-java
