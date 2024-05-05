@@ -42,7 +42,7 @@ jobs:
           cat target/site/jacoco/index.html
 
   sonarcloud:
-    needs: build
+    needs: coverage
     runs-on: ubuntu-latest
                 
     steps:
@@ -57,6 +57,14 @@ jobs:
           run: |
             mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=jimenadev \
-            -Dsonar.projectKey=jimenadev_microservicio-java
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZACION }}  \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+        - name: SonarQube Quality Gate Check
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+          with:
+              scanMetadataReportFile: target/sonar/report-task.txt
+                    
