@@ -16,6 +16,7 @@ public class GreetingController {
 
 	@RequestMapping("/greeting")
 	public @ResponseBody String greeting() {
+		String pass ="1234";
 		return service.greet();
 	}
 
