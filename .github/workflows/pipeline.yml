@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout (Clonacion de codigo)
+      - name: Checkout (Clonación de código)
         uses: actions/checkout@v4
 
       - name: Build (Setup Java JDK)
@@ -13,10 +13,11 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
-      - name: Build and test without coverage
-        run: mvn clean verify -Djacoco.skip=true
+      - name: Build (Compilación)
+        run: |
+          mvn package
 
-  coverage:
+  unitTests:
     needs: build
     runs-on: ubuntu-latest
         
@@ -42,11 +43,11 @@ jobs:
           cat target/site/jacoco/index.html
 
   sonarcloud:
-    needs: coverage
+    needs: unitTests
     runs-on: ubuntu-latest
                 
     steps:
-        - name: Checkout (Clonacion de codigo)
+        - name: Checkout (Clonación de código)
           uses: actions/checkout@v4
         - name: Build (Setup Java JDK)
           uses: actions/setup-java@v4
