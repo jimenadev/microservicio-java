@@ -66,6 +66,14 @@ jobs:
     steps:
         - name: Checkout (Clonación de código)
           uses: actions/checkout@v4
+        - name: Build (Setup Java JDK)
+          uses: actions/setup-java@v4
+          with:
+            java-version: '8'
+            distribution: 'temurin'
+        - name: Build (Compilación)
+          run: |
+            mvn package    
         - name: Docker Login
           uses: docker/login-action@v3.1.0
           with:
