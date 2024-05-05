@@ -15,29 +15,4 @@ jobs:
           distribution: 'temurin'
       - name: Build (Compilación)
         run: |
-          mvn package
-
-  unitTests:
-    needs: build
-    runs-on: ubuntu-latest
-        
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-        
-      - name: Build and Test with JaCoCo
-        run: |
-            mvn clean verify
-            mvn jacoco:prepare-agent
-            mvn jacoco:report
-        
-      - name: Verify coverage
-        run: |
-          mvn jacoco:prepare-agent jacoco:report
-          cat target/site/jacoco/index.html                  
+          mvn package              
