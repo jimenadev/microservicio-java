@@ -25,8 +25,6 @@ public class HomeController {
 		String pass14 ="1234";
 		String pass15 ="1234";
 		String pass16 ="1234";
-		String pass17 ="1234";
-		String pass18 ="1234";
 
 
 		return "Hello, World";
