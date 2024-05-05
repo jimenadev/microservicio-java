@@ -60,10 +60,11 @@ jobs:
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZACION }}  \
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-        - name: SonarQube Quality Gate Check
-          env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        - name: SonarCloud Quality Gate
           uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
           with:
               scanMetadataReportFile: target/sonar/report-task.txt
+          env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              SONAR_HOST_URL: https://sonarcloud.io
                     
