@@ -1,0 +1,62 @@
+name: CI
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (Clonacion de codigo)
+        uses: actions/checkout@v4
+
+      - name: Build (Setup Java JDK)
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Build and test without coverage
+        run: mvn clean verify -Djacoco.skip=true
+
+  coverage:
+    needs: build
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+        
+      - name: Build and Test with JaCoCo
+        run: |
+            mvn clean verify
+            mvn jacoco:prepare-agent
+            mvn jacoco:report
+        
+      - name: Verify coverage
+        run: |
+          mvn jacoco:prepare-agent jacoco:report
+          cat target/site/jacoco/index.html
+
+  sonarcloud:
+    needs: build
+    runs-on: ubuntu-latest
+                
+    steps:
+        - name: Checkout (Clonacion de codigo)
+          uses: actions/checkout@v4
+        - name: Build (Setup Java JDK)
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+        - name: Code Review (Análisis de SonarCloud)
+          run: |
+            mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=jimenadev \
+            -Dsonar.projectKey=jimenadev_microservicio-java
