@@ -96,3 +96,18 @@ jobs:
         - name: Despliegue
           run: |
              kubectl apply -f deploy.yaml
+  test-performance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install K6
+        run: |
+          curl -sSL https://k6.io/install.sh | bash
+      - name: Run performance tests with K6
+        run: k6 run --summary-export=result-summary.json   ./e2e/testk6-rendimiento.js
+      - name: Upload summary results
+        uses: actions/upload-artifact@v2
+        with:
+          name: k6-summary
+          path: ./e2e/result-summary.json
