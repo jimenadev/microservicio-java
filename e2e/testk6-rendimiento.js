@@ -1,5 +1,4 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
 
 export const options = {
   stages:[
@@ -21,8 +20,6 @@ export const options = {
 
 
 export default function(){
-  const response = http.get("https://api.escuelajs.co/api/v1/");
-
-  sleep(1);
+  const response = http.get("http://localhost:8085/greeting");
 }
 
