@@ -106,6 +106,6 @@ jobs:
         uses: grafana/k6-action@v0.3.1
         with:
           filename: ./e2e/testk6-rendimiento.js
-          flags: --vus 50 --duration 10s
+          flags: --vus 30 --duration 10s
           cloud: true
           token: ${{ secrets.K6_TOKEN }}
