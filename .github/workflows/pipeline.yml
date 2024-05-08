@@ -104,7 +104,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install K6
         run: |
-          curl -sSL https://k6.io/install.sh | bash
+          curl -sSL https://k6.io/install.sh | bash -s install
       - name: Run performance tests with K6
         run: k6 run --summary-export=result-summary.json   ./e2e/testk6-rendimiento.js
       - name: Upload summary results
