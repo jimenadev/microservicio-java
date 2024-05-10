@@ -103,10 +103,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Ejecutar pruebas de rendimiento con k6
-        run: k6 run ./e2e/testk6-rendimiento.js --out json=./e2e/report.json 
+        run: k6 run --summary-export=./e2e/summary.json ./e2e/testk6-rendimiento.js
         env:
           K6_CLOUD_TOKEN: ${{ secrets.K6_TOKEN }}
       - name: Upload report to k6 cloud
-        run: k6 cloud ./e2e/report.json 
+        run: k6 cloud  --summary-file=./e2e/summary.json
         env:
           K6_CLOUD_TOKEN: ${{ secrets.K6_TOKEN }}
