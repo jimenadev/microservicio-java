@@ -102,10 +102,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run k6 cloud test
-        uses: grafana/k6-action@v0.3.1
-        with:
-          filename: ./e2e/testk6-rendimiento.js
-          flags: --vus 30 --duration 10s
-          cloud: true
-          token: ${{ secrets.K6_TOKEN }}
+      - name: Ejecutar pruebas de rendimiento con k6
+        run: k6 run ./e2e/testk6-rendimiento.js --vus 30 --duration 10s
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_TOKEN }}
