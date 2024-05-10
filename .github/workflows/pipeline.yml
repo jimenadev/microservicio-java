@@ -107,4 +107,6 @@ jobs:
         env:
           K6_CLOUD_TOKEN: ${{ secrets.K6_TOKEN }}
       - name: Upload report to k6 cloud
-        run: k6 cloud ./e2e/report.json --token ${{ secrets.K6_TOKEN }}
+        run: k6 cloud ./e2e/report.json 
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_TOKEN }}
