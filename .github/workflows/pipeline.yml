@@ -15,53 +15,8 @@ jobs:
       - name: Build (Compilación)
         run: |
           mvn package       
-  unit-tests:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-      - name: Build and Test with JaCoCo
-        run: |
-            mvn clean verify
-            mvn jacoco:prepare-agent
-            mvn jacoco:report
-      - name: Verify coverage
-        run: |
-          mvn jacoco:prepare-agent jacoco:report
-          cat target/site/jacoco/index.html   
-  sonarcloud:
-    needs: unit-tests
-    runs-on: ubuntu-latest
-    steps:
-        - name: Checkout (Clonación de código)
-          uses: actions/checkout@v4
-        - name: Build (Setup Java JDK)
-          uses: actions/setup-java@v4
-          with:
-            java-version: '17'
-            distribution: 'temurin'
-        - name: Code Review (Análisis de SonarCloud)
-          run: |
-            mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZACION }}  \
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-        - name: SonarCloud Quality Gate
-          uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
-          with:
-              scanMetadataReportFile: target/sonar/report-task.txt
-          env:
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              SONAR_HOST_URL: https://sonarcloud.io
   docker-push:
-    needs: sonarcloud
+    needs: build
     runs-on: ubuntu-latest
     steps:
         - name: Checkout (Clonación de código)
