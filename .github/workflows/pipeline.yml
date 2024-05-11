@@ -1,22 +1,8 @@
 name: CI
 on:
   push:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout (Clonación de código)
-        uses: actions/checkout@v4
-      - name: Build (Setup Java JDK)
-        uses: actions/setup-java@v4
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-      - name: Build (Compilación)
-        run: |
-          mvn package       
+jobs:     
   deploy:
-    needs: build
     runs-on: self-hosted
     steps:
         - name: Checkout (Clonación de código)
